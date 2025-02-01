@@ -1,6 +1,6 @@
 # Project Node.js - Backend
 
-Ce projet est une application Node.js qui utilise XAMPP pour gérer les services Apache et MySQL. Ce fichier `README.md` vous guidera dans le processus de démarrage du projet.
+Ce projet est une application web Node.js qui utilise XAMPP pour gérer les services Apache et MySQL. Ce fichier `README.md` vous guidera dans le processus de démarrage du projet.
 
 ## Prérequis
 
@@ -17,14 +17,13 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur v
 Si vous n'avez pas encore cloné le projet, commencez par le faire :
 
 ```bash
-git clone https://github.com/harroldfree/eventsports_backend.git
 cd eventsports_backend
-
+git clone https://github.com/harroldfree/eventsports_backend.git
 ```
 
 
 ### 2. Installer les dépendances
-Rendez-vous dans le dossier backend et installez les dépendances nécessaires pour votre application Node.js.
+Rendez-vous dans le dossier "backend" et installez les dépendances nécessaires pour  l'application Node.js.
 
 ```bash
 cd backend
@@ -43,14 +42,14 @@ Cela lancera un serveur Apache (généralement sur le port 80) et un serveur MyS
 ### 4. Importer le fichier .sql pour la base de données
 
 a. Créer la base de données
-Accédez à phpMyAdmin via votre navigateur. Vous pouvez y accéder depuis l'interface XAMPP ou directement en entrant l'URL ci-dessus.
+Accédez à phpMyAdmin via votre navigateur. Vous pouvez y accéder depuis l'interface XAMPP en cliquant sur "admin" ou directement en entrant l'URL: http://localhost/phpmyadmin/index.php?route=/database/structure&db=eventsp.
 
 Créez une nouvelle base de données en fonction de votre projet. Voici comment faire :
 
 Allez dans l'onglet Bases de données.
 Entrez un nom pour votre base de données (par exemple mon_projet_backend).
 Cliquez sur Créer.
-b. Importer le fichier .sql
+b. Importer le fichier .sql qui se trouve
 Dans phpMyAdmin, après avoir créé la base de données :
 
 Cliquez sur votre base de données dans la liste à gauche.
