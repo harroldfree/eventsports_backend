@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 31 jan. 2025 à 11:26
+-- Généré le : sam. 01 fév. 2025 à 15:18
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -93,22 +93,22 @@ CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `nom` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `motdepasse` varchar(255) NOT NULL,
-  `role` enum('admin','user') NOT NULL DEFAULT 'user'
+  `motdepasse` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id_user`, `nom`, `email`, `motdepasse`, `role`) VALUES
-(1, '', '', '', ''),
-(2, 'Jane Smith', 'janesmith@example.com', 'hashed_password_456', 'user'),
-(3, 'Mike Brown', 'mikebrown@example.com', 'hashed_password_789', 'user'),
-(4, 'Anna White', 'annawhite@example.com', 'hashed_password_321', 'admin'),
-(5, 'Chris Green', 'chrisgreen@example.com', 'hashed_password_654', 'user'),
-(6, 'John Doe', 'johndoe@example.com', '123456', 'admin'),
-(7, 'John bedel', 'john.doe@gmail.com', '$2b$10$pxq4fWIZpryA1uiR4fZVjeD1B.Izx.IW.zw5MmVOUnTfIfsSHRHJC', '');
+INSERT INTO `user` (`id_user`, `nom`, `email`, `motdepasse`) VALUES
+(1, '', '', ''),
+(2, 'Jane Smith', 'janesmith@example.com', 'hashed_password_456'),
+(3, 'Mike Brown', 'mikebrown@example.com', 'hashed_password_789'),
+(4, 'Anna White', 'annawhite@example.com', 'hashed_password_321'),
+(5, 'Chris Green', 'chrisgreen@example.com', 'hashed_password_654'),
+(6, 'John Doe', 'johndoe@example.com', '123456'),
+(7, 'John bedel', 'john.doe@gmail.com', '$2b$10$pxq4fWIZpryA1uiR4fZVjeD1B.Izx.IW.zw5MmVOUnTfIfsSHRHJC'),
+(8, 'John Bedel', 'jharrold@exemple.com', '$2b$10$jy1x2Uvr5iJDfm7uxlkGZOpoaIXfnPJOhbUHtbCxAUIOTmERO8n2u');
 
 --
 -- Index pour les tables déchargées
@@ -169,7 +169,7 @@ ALTER TABLE `participation`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées
