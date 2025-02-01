@@ -23,7 +23,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { nom, email, motdepasse, role } = req.body;
+    const { nom, email, motdepasse } = req.body;
 
     try {
       const queryCheckEmail = 'SELECT * FROM user WHERE email = ?';
@@ -34,8 +34,8 @@ router.post(
       }
 
       const hashedPassword = await bcrypt.hash(motdepasse, 10);
-      const query = 'INSERT INTO user (nom, email, motdepasse, role) VALUES (?, ?, ?, ?)';
-      await connection.query(query, [nom, email, hashedPassword, role]);
+      const query = 'INSERT INTO user (nom, email, motdepasse) VALUES (?, ?, ?)';
+      await connection.query(query, [nom, email, hashedPassword]);
 
       res.status(201).json({ message: 'Utilisateur ajouté avec succès' });
     } catch (err) {
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id_user, role: user.role },
+      { id: user.id_user },
       process.env.JWT_SECRET || 'secret_key',
       { expiresIn: '1h' }
     );
@@ -79,13 +79,8 @@ router.post('/login', async (req, res) => {
 // ✅ Obtenir tous les utilisateurs
 router.get('/', async (req, res) => {
   try {
-    const results = await connection.query('SELECT * FROM user');
-    console.log (results)
-    formattedResults = results.map(user => {
-    delete user.motdepasse;
-    return user;
-  })
-    res.status(200).json(formattedResults);
+    const results = await connection.query('SELECT id_user, nom, email FROM user'); // On exclut motdepasse
+    res.status(200).json(results);
   } catch (err) {
     console.error('Erreur:', err);
     res.status(500).json({ message: 'Erreur serveur' });
@@ -96,7 +91,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const results = await connection.query('SELECT * FROM user WHERE id_user = ?', [id]);
+    const results = await connection.query('SELECT id_user, nom, email FROM user WHERE id_user = ?', [id]);
 
     if (results.length === 0) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
@@ -112,12 +107,12 @@ router.get('/:id', async (req, res) => {
 // ✅ Mettre à jour un utilisateur
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { nom, email, motdepasse, role } = req.body;
+  const { nom, email, motdepasse } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(motdepasse, 10);
-    const query = 'UPDATE user SET nom = ?, email = ?, motdepasse = ?, role = ? WHERE id_user = ?';
-    const results = await connection.query(query, [nom, email, hashedPassword, role, id]);
+    const query = 'UPDATE user SET nom = ?, email = ?, motdepasse = ? WHERE id_user = ?';
+    const results = await connection.query(query, [nom, email, hashedPassword, id]);
 
     if (results.affectedRows === 0) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
