@@ -45,6 +45,7 @@ router.post(
   }
 );
 
+
 // ✅ Authentification et génération de token
 router.post('/login', async (req, res) => {
   const { email, motdepasse } = req.body;
@@ -52,29 +53,43 @@ router.post('/login', async (req, res) => {
   try {
     const results = await connection.query('SELECT * FROM user WHERE email = ?', [email]);
 
+    // Si l'utilisateur n'est pas trouvé
     if (results.length === 0) {
       return res.status(401).json({ message: 'Utilisateur non trouvé' });
     }
 
-    const user = results[0];
+    const user = results[0];  // Utilisateur trouvé
+
+    // Comparaison du mot de passe
     const isMatch = await bcrypt.compare(motdepasse, user.motdepasse);
 
+    // Si le mot de passe est incorrect
     if (!isMatch) {
       return res.status(401).json({ message: 'Mot de passe incorrect' });
     }
 
+    // Générer le token JWT
     const token = jwt.sign(
-      { id: user.id_user },
+      { id: user.id_user },  // Payload du token (ID de l'utilisateur)
       process.env.JWT_SECRET || 'secret_key',
-      { expiresIn: '1h' }
+      { expiresIn: '1h' }  // Le token expirera dans 1 heure
     );
 
-    res.json({ token });
+    // Retourner le token et les informations de l'utilisateur
+    res.json({
+      token,  // Le token JWT
+      user: {  // Les informations de l'utilisateur
+        id: user.id_user,
+        nom: user.nom,
+        email: user.email
+      }
+    });
   } catch (err) {
     console.error('Erreur:', err);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
+////////////////////////////////////////////////
 
 // ✅ Obtenir tous les utilisateurs
 router.get('/', async (req, res) => {
