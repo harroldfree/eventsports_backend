@@ -44,7 +44,7 @@ Cela lancera un serveur Apache (généralement sur le port 80) et un serveur MyS
 a. Créer la base de données
 Accédez à phpMyAdmin via votre navigateur. Vous pouvez y accéder depuis l'interface XAMPP en cliquant sur "admin" ou directement en entrant l'URL: http://localhost/phpmyadmin/index.php?route=/database/structure&db=eventsp.
 
-Créez une nouvelle base de données en fonction de votre projet. Voici comment faire :
+Créez une nouvelle base de données. Voici comment faire :
 
 Allez dans l'onglet Bases de données.
 Entrez un nom pour votre base de données (par exemple mon_projet_backend).
@@ -83,7 +83,7 @@ Une fois le serveur en cours d'exécution, ouvrez votre navigateur et accédez �
 ```bash
 http://localhost:3000
 ```
-Vous pouvez également tester les différentes routes de votre API si vous en avez, ou vous assurer que la base de données est correctement connectée et fonctionne.
+Vous pouvez également tester les différentes routes, ou vous assurer que la base de données est correctement connectée et fonctionne.
 
 
 
