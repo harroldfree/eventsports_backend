@@ -1,20 +1,17 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 module.exports = (req, res, next) => {
-  const authHeader = req.header('Authorization'); // Récupérer le header Authorization
+  const token = req.header('Authorization');
 
-  if (!authHeader) {
-    return res.status(403).json({ message: 'Accès refusé. Token manquant.' });
+  if (!token) {
+    return res.status(401).json({ message: 'Accès refusé, aucun token fourni' });
   }
 
-  const token = authHeader.split(' ')[1]; // Extraire uniquement le token après "Bearer "
-
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET || 'secret_key'); // Vérifier le token
-    req.user = verified; // Stocker l'utilisateur vérifié dans `req`
-    next(); // Passer à la prochaine fonction
+    const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET || 'secret_key');
+    req.user = decoded; // Ajoute l'utilisateur décodé à la requête
+    next();
   } catch (err) {
-    return res.status(401).json({ message: 'Token invalide' });
+    res.status(401).json({ message: 'Token invalide' });
   }
 };

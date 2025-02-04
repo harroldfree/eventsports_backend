@@ -9,7 +9,7 @@ const util = require('util');
 // Promisifier les requêtes MySQL pour async/await
 connection.query = util.promisify(connection.query);
 
-// ✅ Création d'un utilisateur
+//  Création d'un utilisateur
 router.post(
   '/',
   [
@@ -46,7 +46,7 @@ router.post(
 );
 
 
-// ✅ Authentification et génération de token
+//  Authentification et génération de token
 router.post('/login', async (req, res) => {
   const { email, motdepasse } = req.body;
 
@@ -89,9 +89,9 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 });
-////////////////////////////////////////////////
 
-// ✅ Obtenir tous les utilisateurs
+
+//  Obtenir tous les utilisateurs
 router.get('/', async (req, res) => {
   try {
     const results = await connection.query('SELECT id_user, nom, email FROM user'); // On exclut motdepasse
@@ -102,7 +102,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ Obtenir un utilisateur par ID
+//  Obtenir un utilisateur par ID
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -119,7 +119,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// ✅ Mettre à jour un utilisateur
+//  Mettre à jour un utilisateur
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { nom, email, motdepasse } = req.body;
@@ -140,7 +140,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// ✅ Supprimer un utilisateur
+//  Supprimer un utilisateur
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
