@@ -99,4 +99,26 @@ router.delete('/:id', authMiddleware, (req, res) => {
   });
 });
 
+// recupere l'url de l'image
+router.get('/:id/image', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT image_url FROM evenement WHERE id_evenement = ?';
+
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('❌ Erreur lors de la récupération de l\'image:', err);
+      return res.status(500).json({ error: 'Erreur lors de la récupération de l\'image' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Événement non trouvé' });
+    }
+
+    const imageUrl = `http://localhost:3000${results[0].image_url}`;
+    res.json({ image_url: imageUrl });
+  });
+});
+
+
+
 module.exports = router;
