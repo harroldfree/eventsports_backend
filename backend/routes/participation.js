@@ -1,3 +1,5 @@
+// import auth from '../middleware/auth';
+const auth = require('../middleware/auth')
 const express = require('express');
 const router = express.Router();
 const connection = require('../config/db');
@@ -15,6 +17,21 @@ router.get('/', (req, res) => {
   });
 });
 
+// Obtenir les participations d'un seul utilisateur
+router.get('/:id_user', (req, res) => {
+  const userId = req.params.id_user; // Récupère l'ID de l'utilisateur depuis l'URL
+  const query = 'SELECT * FROM `participation`JOIN evenement WHERE evenement.id_evenement = participation.id_evenement and participation.id_user = ?';
+
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des participations:', err);
+      res.status(500).send('Erreur lors de la récupération des participations');
+    } else {
+      res.status(200).json(results);
+    }
+  });
+})
+
 // Ajouter une participation
 router.post('/', (req, res) => {
   const { id_user, id_evenement } = req.body;
@@ -30,10 +47,13 @@ router.post('/', (req, res) => {
 });
 
 // Supprimer une participation
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM participation WHERE id_participation = ?';
-  connection.query(query, [id], (err, results) => {
+  console.log(req.user)
+    console.log("Hello World !")
+  const query = 'DELETE FROM participation WHERE id_evenement = ? and id_user = ?';
+  connection.query(query, [id, req.user.id], (err, results) => {
+    
     if (err) {
       console.error('Erreur lors de la suppression de la participation:', err);
       res.status(500).send('Erreur lors de la suppression de la participation');

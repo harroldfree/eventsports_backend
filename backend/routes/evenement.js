@@ -47,7 +47,7 @@ router.get('/:id', (req, res) => {
 //  Ajouter un nouvel événement (authentification requise)
 router.post('/', authMiddleware, upload.single('image'), (req, res) => {
   const { nom_evenement, date_debut, lieu, description, id_categorie } = req.body;
-  const image_url = req.file ? `/uploads/${req.file.filename}` : null;
+  const image_url = req.file ? `/uploads/${req.file.filename}` : req.body.image_url;
   const id_user = req.user.id; // Récupéré du token JWT
 
   if (!nom_evenement || !date_debut || !lieu || !description || !id_categorie) {
